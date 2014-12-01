@@ -1,0 +1,8 @@
+<div class="container-fluid">
+	<div class="row" id="entries">
+		{% for i in 0..(entries|length-1) %}
+			{% include 'entry.html.twig' %}
+		{% endfor %}
+	</div>
+</div>
+

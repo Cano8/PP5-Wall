@@ -1,0 +1,19 @@
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Modify entry</h4>
+			</div>
+			<form action="" id="editForm" method="post" enctype="multipart/form-data" novalidate>
+				<div id="modal1" class="modal-body">
+					{% include 'form.html.twig' %}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<input id="submitForm" class="btn btn-primary" type="submit" value="submit" />
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

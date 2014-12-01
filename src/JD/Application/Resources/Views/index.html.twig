@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+{%  block navigation %}
+	{{ parent() }}
+{%  endblock %}
+
+{%  block content %}
+	{% include 'entries.html.twig' %}
+	<br>
+	<div class="text-center">
+	<button id="addEntry" type="button" class="adder btn btn-default">
+		<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+		Add new entry
+	</button>
+	</div>	
+	{% include 'modal.html.twig' %}
+{%  endblock %}
+
+{%  block footer %}
+	{{ parent() }}
+{%  endblock %}

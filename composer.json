@@ -1,0 +1,17 @@
+{
+	"autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "require":  {
+		"symfony/filesystem": "dev-master",
+		"symfony/form": "~2.3",
+		"symfony/security-csrf": "~2.4",
+		"symfony/twig-bridge": "~2.3",
+		"symfony/validator": "~2.3",
+		"symfony/filesystem": "~2.3",
+		"symfony/config": "~2.3",
+		"symfony/translation": "~2.3",
+		"silex/silex": "~1.2",
+		"twig/twig": "~1.0"
+    }
+}

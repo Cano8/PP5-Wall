@@ -1,4 +1,3 @@
 PP5-Wall
-========
 
-version 1.0
+A simple project for Programming Workshop classes

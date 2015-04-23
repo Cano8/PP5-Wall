@@ -14,6 +14,7 @@ namespace Symfony\Component\Translation\Tests;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class TranslatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -72,6 +73,16 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
         $translator->setLocale($locale);
 
         $this->assertEquals($locale, $translator->getLocale());
+    }
+
+    public function testGetCatalogue()
+    {
+        $translator = new Translator('en');
+
+        $this->assertEquals(new MessageCatalogue('en'), $translator->getCatalogue());
+
+        $translator->setLocale('fr');
+        $this->assertEquals(new MessageCatalogue('fr'), $translator->getCatalogue('fr'));
     }
 
     public function testSetFallbackLocales()
@@ -159,7 +170,7 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
         $translator = new Translator('fr');
         $translator->addLoader('array', new ArrayLoader());
 
-        $translator->setFallbackLocale(array('en'));
+        $translator->setFallbackLocales(array('en'));
 
         $translator->addResource('array', array('foo' => 'foofoo'), 'en');
         $this->assertEquals('foofoo', $translator->trans('foo'));
@@ -345,18 +356,18 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     public function getTransTests()
     {
         return array(
-            array('Symfony2 est super !', 'Symfony2 is great!', 'Symfony2 est super !', array(), 'fr', ''),
-            array('Symfony2 est awesome !', 'Symfony2 is %what%!', 'Symfony2 est %what% !', array('%what%' => 'awesome'), 'fr', ''),
-            array('Symfony2 est super !', new String('Symfony2 is great!'), 'Symfony2 est super !', array(), 'fr', ''),
+            array('Symfony est super !', 'Symfony is great!', 'Symfony est super !', array(), 'fr', ''),
+            array('Symfony est awesome !', 'Symfony is %what%!', 'Symfony est %what% !', array('%what%' => 'awesome'), 'fr', ''),
+            array('Symfony est super !', new StringClass('Symfony is great!'), 'Symfony est super !', array(), 'fr', ''),
         );
     }
 
     public function getFlattenedTransTests()
     {
         $messages = array(
-            'symfony2' => array(
+            'symfony' => array(
                 'is' => array(
-                    'great' => 'Symfony2 est super!',
+                    'great' => 'Symfony est super!',
                 ),
             ),
             'foo' => array(
@@ -368,7 +379,7 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
         );
 
         return array(
-            array('Symfony2 est super!', $messages, 'symfony2.is.great'),
+            array('Symfony est super!', $messages, 'symfony.is.great'),
             array('Foo Bar Baz', $messages, 'foo.bar.baz'),
             array('Foo Baz', $messages, 'foo.baz'),
         );
@@ -393,7 +404,7 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
             array('Il y a 1 pomme', '{0} There are no apples|one: There is one apple|more: There is %count% apples', '{0} Il n\'y a aucune pomme|one: Il y a %count% pomme|more: Il y a %count% pommes', 1, array('%count%' => 1), 'fr', ''),
             array('Il y a 10 pommes', '{0} There are no apples|one: There is one apple|more: There is %count% apples', '{0} Il n\'y a aucune pomme|one: Il y a %count% pomme|more: Il y a %count% pommes', 10, array('%count%' => 10), 'fr', ''),
 
-            array('Il y a 0 pomme', new String('{0} There are no appless|{1} There is one apple|]1,Inf] There is %count% apples'), '[0,1] Il y a %count% pomme|]1,Inf] Il y a %count% pommes', 0, array('%count%' => 0), 'fr', ''),
+            array('Il y a 0 pomme', new StringClass('{0} There are no appless|{1} There is one apple|]1,Inf] There is %count% apples'), '[0,1] Il y a %count% pomme|]1,Inf] Il y a %count% pommes', 0, array('%count%' => 0), 'fr', ''),
         );
     }
 
@@ -461,9 +472,123 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
         // unchanged if it can't be found
         $this->assertEquals('some_message2', $translator->transChoice('some_message2', 10, array('%count%' => 10)));
     }
+
+    /**
+     * @dataProvider dataProviderGetMessages
+     */
+    public function testGetMessages($resources, $locale, $expected)
+    {
+        $locales = array_keys($resources);
+        $_locale = !is_null($locale) ? $locale : reset($locales);
+        $locales = array_slice($locales, 0, array_search($_locale, $locales));
+
+        $translator = new Translator($_locale, new MessageSelector());
+        $translator->setFallbackLocales(array_reverse($locales));
+        $translator->addLoader('array', new ArrayLoader());
+        foreach ($resources as $_locale => $domainMessages) {
+            foreach ($domainMessages as $domain => $messages) {
+                $translator->addResource('array', $messages, $_locale, $domain);
+            }
+        }
+        $result = $translator->getMessages($locale);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function dataProviderGetMessages()
+    {
+        $resources = array(
+            'en' => array(
+                'jsmessages' => array(
+                    'foo' => 'foo (EN)',
+                    'bar' => 'bar (EN)',
+                ),
+                'messages' => array(
+                    'foo' => 'foo messages (EN)',
+                ),
+                'validators' => array(
+                    'int' => 'integer (EN)',
+                ),
+            ),
+            'pt-PT' => array(
+                'messages' => array(
+                    'foo' => 'foo messages (PT)',
+                ),
+                'validators' => array(
+                    'str' => 'integer (PT)',
+                ),
+            ),
+            'pt_BR' => array(
+                'validators' => array(
+                    'int' => 'integer (BR)',
+                ),
+            ),
+        );
+
+        return array(
+            array($resources, null,
+                array(
+                    'jsmessages' => array(
+                        'foo' => 'foo (EN)',
+                        'bar' => 'bar (EN)',
+                    ),
+                    'messages' => array(
+                        'foo' => 'foo messages (EN)',
+                    ),
+                    'validators' => array(
+                        'int' => 'integer (EN)',
+                    ),
+                ),
+            ),
+            array($resources, 'en',
+                array(
+                    'jsmessages' => array(
+                        'foo' => 'foo (EN)',
+                        'bar' => 'bar (EN)',
+                    ),
+                    'messages' => array(
+                        'foo' => 'foo messages (EN)',
+                    ),
+                    'validators' => array(
+                        'int' => 'integer (EN)',
+                    ),
+                ),
+            ),
+            array($resources, 'pt-PT',
+                array(
+                    'jsmessages' => array(
+                        'foo' => 'foo (EN)',
+                        'bar' => 'bar (EN)',
+                    ),
+                    'messages' => array(
+                        'foo' => 'foo messages (PT)',
+                    ),
+                    'validators' => array(
+                        'int' => 'integer (EN)',
+                        'str' => 'integer (PT)',
+                    ),
+                ),
+            ),
+            array($resources, 'pt_BR',
+                array(
+                    'jsmessages' => array(
+                        'foo' => 'foo (EN)',
+                        'bar' => 'bar (EN)',
+                    ),
+                    'messages' => array(
+                        'foo' => 'foo messages (PT)',
+                    ),
+                    'validators' => array(
+                        'int' => 'integer (BR)',
+                        'str' => 'integer (PT)',
+                    ),
+                ),
+            ),
+        );
+    }
 }
 
-class String
+class StringClass
 {
     protected $str;
 

@@ -44,6 +44,7 @@ abstract class BaseType extends AbstractType
         $name = $form->getName();
         $blockName = $options['block_name'] ?: $form->getName();
         $translationDomain = $options['translation_domain'];
+        $labelFormat = $options['label_format'];
 
         if ($view->parent) {
             if ('' !== ($parentFullName = $view->parent->vars['full_name'])) {
@@ -56,8 +57,12 @@ abstract class BaseType extends AbstractType
                 $uniqueBlockPrefix = '_'.$blockName;
             }
 
-            if (!$translationDomain) {
+            if (null === $translationDomain) {
                 $translationDomain = $view->parent->vars['translation_domain'];
+            }
+
+            if (!$labelFormat) {
+                $labelFormat = $view->parent->vars['label_format'];
             }
         } else {
             $id = $name;
@@ -76,10 +81,6 @@ abstract class BaseType extends AbstractType
         }
         $blockPrefixes[] = $uniqueBlockPrefix;
 
-        if (!$translationDomain) {
-            $translationDomain = 'messages';
-        }
-
         $view->vars = array_replace($view->vars, array(
             'form' => $view,
             'id' => $id,
@@ -87,6 +88,7 @@ abstract class BaseType extends AbstractType
             'full_name' => $fullName,
             'disabled' => $form->isDisabled(),
             'label' => $options['label'],
+            'label_format' => $labelFormat,
             'multipart' => false,
             'attr' => $options['attr'],
             'block_prefixes' => $blockPrefixes,
@@ -111,6 +113,7 @@ abstract class BaseType extends AbstractType
             'block_name' => null,
             'disabled' => false,
             'label' => null,
+            'label_format' => null,
             'attr' => array(),
             'translation_domain' => null,
             'auto_initialize' => true,

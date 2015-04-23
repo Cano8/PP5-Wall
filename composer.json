@@ -3,8 +3,6 @@
         "psr-0": { "": "src/" }
     },
     "require":  {
-		"kriswallsmith/buzz": "dev-master",
-		"symfony/stopwatch": "dev-master",
 		"symfony/filesystem": "dev-master",
 		"symfony/form": "~2.3",
 		"symfony/security-csrf": "~2.4",
@@ -13,8 +11,7 @@
 		"symfony/filesystem": "~2.3",
 		"symfony/config": "~2.3",
 		"symfony/translation": "~2.3",
-		"silex/silex": "~1.1",
+		"silex/silex": "~1.2",
 		"twig/twig": "~1.0"
-
     }
 }

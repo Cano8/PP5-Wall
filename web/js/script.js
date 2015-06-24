@@ -25,7 +25,7 @@ function colourChange() {
 function requestForm( n ) {
 	$.ajax({
 		type: "POST",
-		url:  '/~s153117/index.php',
+		url:  '/PP5-Wall/web/index.php',
 		data: {  requestForm: n },
 		cache: false
 	}).done ( function( data ) {
@@ -99,20 +99,20 @@ $(document).ready(function () {
 		n = $(this).parent().parent().attr( 'id' ).substr(5);
 		$.ajax({
 			type: 'POST',
-			url:  '/~s153117/index.php',
+			url:  '/PP5-Wall/web/index.php',
 			data: {  remove: n },
 			cache: false
 		}).done ( function( data ) {
 			$( "#entries" ).html( data );
 		}).fail( function() {
-			alert( 'Ajax request failed.' );
+			alert( 'Ajax request failed (remove).' );
 		});
 	});
 	
 	$( "#addEntry" ).on( 'click', function() {
 		$.ajax({
 			type: "POST",
-			url:  '/~s153117/index.php',
+			url:  '/PP5-Wall/web/index.php',
 			data: {  add: "" },
 			cache: false
 		}).done ( function( data ) {
@@ -121,7 +121,7 @@ $(document).ready(function () {
 			$( '#myModal' ).modal('show');
 			modalPopIn ( $( '.modal-dialog' ) );
 		}).fail( function() {
-			alert( 'Ajax request failed.' );
+			alert( 'Ajax request failed (add).' );
 		});
 	});
 
@@ -136,7 +136,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: 'POST',
-			url:  '/~s153117/index.php',
+			url:  '/PP5-Wall/web/index.php',
 			data: htmlData,
 			cache: false,
 			contentType: false,

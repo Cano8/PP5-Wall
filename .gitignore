@@ -1,5 +1,5 @@
 #dynamic data
-*.json
+**/*.json
 
 # Cache and logs (Symfony2)
 /app/cache/*

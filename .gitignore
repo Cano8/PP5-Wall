@@ -1,5 +1,5 @@
 *.json
-/web/img/
+/web/img/*
 
 # Cache and logs (Symfony2)
 /app/cache/*

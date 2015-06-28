@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"> 
-		<meta name="description" content="PP5">
-		<meta name="keywords" content="HTML,CSS,JavaScript">
-		<meta name="author" content="Jędrzej Darda">
 
-		<script src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/jquery.color.js"></script>
-		<script type="text/javascript" src="js/script.js"></script>
-		
-		<!--CDN link for the latest TweenMax-->
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
-		
-		<!--bootstrap-->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-		
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		
-		<title>PP5</title>
-		
-	</head>
-	<body>
-			<nav>
-				{% block navigation %}
-					{% include 'defaultNavigation.html.twig' %}
-				{% endblock %}
-			</nav>
-			<section id="content">
-				{%  block content %}{%  endblock %}					
-			</section>
-			<footer>
-				{% block footer %}
-					{% include 'defaultFooter.html.twig' %}
-				{% endblock %}
-			</footer>
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="PP5">
+        <meta name="keywords" content="HTML,CSS,JavaScript">
+        <meta name="author" content="Jędrzej Darda">
+
+        <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+        <script src="js/jquery.color.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+
+        <!--CDN link for the latest TweenMax-->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+
+        <!--bootstrap-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <title>PP5</title>
+
+    </head>
+
+    <body>
+        <nav>
+            {% block navigation %} {% include 'defaultNavigation.html.twig' %} {% endblock %}
+        </nav>
+        <section id="content">
+            {% block content %}{% endblock %}
+        </section>
+        <footer>
+            {% block footer %} {% include 'defaultFooter.html.twig' %} {% endblock %}
+        </footer>
+    </body>
+
 </html>

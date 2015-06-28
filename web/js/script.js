@@ -109,7 +109,7 @@ $(document).ready(function() {
 		n = $(this).parent().parent().attr('id').substr(5);
 		$.ajax({
 			type: 'POST',
-			url: '/PP5-Wall/web/index.php',
+			url: 'index.php',
 			data: {
 				remove: n
 			},
@@ -124,7 +124,7 @@ $(document).ready(function() {
 	$("#addEntry").on('click', function() {
 		$.ajax({
 			type: "POST",
-			url: '/PP5-Wall/web/index.php',
+			url: 'index.php',
 			data: {
 				add: ""
 			},
@@ -150,7 +150,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: 'POST',
-			url: '/PP5-Wall/web/index.php',
+			url: 'index.php',
 			data: htmlData,
 			cache: false,
 			contentType: false,

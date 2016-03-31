@@ -9,7 +9,7 @@ class Entries
 	
 	public function __construct($json)
 	{
-		$entries = [];
+		$entries = array();
 		$i = 0;
 		foreach ($json as $singleEntry) {
 			$entries[$i] = new Entry($i, $singleEntry);
